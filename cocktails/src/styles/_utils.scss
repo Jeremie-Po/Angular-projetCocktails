@@ -29,3 +29,29 @@
 .gap-16 {
   gap: 16px
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.text-sm {
+  font-size: 0.75rem;
+}
+
+.text-lg {
+  font-size: 1.5rem;
+}
+
+.semi-bold {
+  font-weight: 500;
+}
+
+.bold {
+  font-weight: 700;
+}
+

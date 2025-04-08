@@ -12,8 +12,15 @@ import {CocktailsComponent} from './components/cocktails/cocktails.component';
   ],
   template: `
     <app-header/>
-    <app-cocktails/>
+    <app-cocktails class="flex-auto"/>
     <app-footer/>
+  `,
+  styles: `
+    :host {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
   `
 })
 export class AppComponent {
