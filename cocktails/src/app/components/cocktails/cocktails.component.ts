@@ -9,8 +9,8 @@ import {CocktailDetailsComponent} from './components/cocktail-details.component'
     CocktailDetailsComponent
   ],
   template: `
-    <app-cocktails-list class="flex-auto card"/>
-    <app-cocktail-details class="flex-auto card"/>
+    <app-cocktails-list class="w-half card"/>
+    <app-cocktail-details class="w-half card"/>
   `,
   styles: `
     :host {
