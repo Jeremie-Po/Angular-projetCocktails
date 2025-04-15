@@ -8,8 +8,14 @@ import {Cocktail} from 'app/shared/interface';
     @let c = selectedCocktail();
     <img class="mb-20" [src]="c.imageUrl"/>
     <h3 class="mb-20">{{ c.name }}</h3>
-    <p class="mb-20">{{ c.ingredients }}</p>
     <p class="mb-20">{{ c.description }}</p>
+    <ul class="mb-20">
+      @for (ingredient of c.ingredients; track $index) {
+        <li class="my-2">
+          {{ ingredient }}
+        </li>
+      }
+    </ul>
     <div>
       <button class="btn btn-primary">ajouter cocktail</button>
     </div>
@@ -18,7 +24,15 @@ import {Cocktail} from 'app/shared/interface';
     :host {
       display: flex;
       flex-direction: column;
-    }`
+    }
+
+    ul {
+      list-style: disc;
+      padding-left: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  `
 })
 export class CocktailDetailsComponent {
   selectedCocktail = input.required<Cocktail>()
