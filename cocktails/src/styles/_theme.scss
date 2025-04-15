@@ -11,6 +11,10 @@ body {
   border: var(--border);
 }
 
+.border {
+  border-radius: var(--radius);
+}
+
 .active-item {
   background-color: var(--light);
   color: white;
