@@ -8,7 +8,9 @@ import {Cocktail} from '../../../shared/interface';
     <h2 class="mb-20">Liste des cocktails</h2>
     <ul class="mb-20">
       @for (cocktail of cocktails(); track cocktail.name) {
-        <li class="px-12 py-6 my-2 border" (click)="cocktailNameSelected.emit(cocktail.name)">
+        <li class="px-12 py-6 my-2 border"
+            (click)="cocktailNameSelected.emit(cocktail.name)"
+            [class.active-item]='cocktail.name === selectedCocktailName()'>
           <h3>{{ cocktail.name }}</h3>
         </li>
       }
@@ -22,5 +24,6 @@ import {Cocktail} from '../../../shared/interface';
 })
 export class CocktailsListComponent {
   cocktails = input<Cocktail[]>([])
+  selectedCocktailName = input.required();
   cocktailNameSelected = output<string>();
 }
