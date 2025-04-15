@@ -1,13 +1,17 @@
-import {Component, input, output} from '@angular/core';
+import {Component, computed, input, output, signal} from '@angular/core';
 import {Cocktail} from '../../../shared/interface';
+import {CocktailFilterComponent} from './cocktail-filter.component';
 
 @Component({
   selector: 'app-cocktails-list',
-  imports: [],
+  imports: [
+    CocktailFilterComponent
+  ],
   template: `
     <h2 class="mb-20">Liste des cocktails</h2>
+    <app-cocktail-filter [(filter)]="filter"/>
     <ul class="mb-20">
-      @for (cocktail of cocktails(); track cocktail.name) {
+      @for (cocktail of filteredCocktails(); track cocktail.name) {
         @let active = cocktail.name === selectedCocktailName();
         <li class="px-12 py-6 my-2 border"
             (click)="cocktailNameSelected.emit(cocktail.name)"
@@ -27,5 +31,10 @@ import {Cocktail} from '../../../shared/interface';
 export class CocktailsListComponent {
   cocktails = input<Cocktail[]>([])
   selectedCocktailName = input.required();
+  filter = signal<string>('');
+
+  filteredCocktails = computed(() => {
+    return this.cocktails().filter((c) => c.name.toLowerCase().includes(this.filter()))
+  })
   cocktailNameSelected = output<string>();
 }
