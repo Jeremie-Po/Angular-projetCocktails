@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, input, output} from '@angular/core';
 import {Cocktail} from '../../../shared/interface';
 
 @Component({
@@ -8,7 +8,7 @@ import {Cocktail} from '../../../shared/interface';
     <h2 class="mb-20">Liste des cocktails</h2>
     <ul class="mb-20">
       @for (cocktail of cocktails(); track cocktail.name) {
-        <li class="px-12 py-6 my-2 border">
+        <li class="px-12 py-6 my-2 border" (click)="cocktailNameSelected.emit(cocktail.name)">
           <h3>{{ cocktail.name }}</h3>
         </li>
       }
@@ -22,4 +22,5 @@ import {Cocktail} from '../../../shared/interface';
 })
 export class CocktailsListComponent {
   cocktails = input<Cocktail[]>([])
+  cocktailNameSelected = output<string>();
 }
