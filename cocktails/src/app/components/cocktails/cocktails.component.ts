@@ -12,11 +12,11 @@ import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools
     CocktailDetailsComponent
   ],
   template: `
-    <app-cocktails-list class="w-half card"
+    <app-cocktails-list class="w-half card xs-w-full"
                         [cocktails]="cocktails()"
                         [selectedCocktailName]="selectedCocktailName()"
                         (cocktailNameSelected)="cocktailNameSelected($event)"/>
-    <app-cocktail-details class="w-half card"
+    <app-cocktail-details class="w-half card xs-w-full"
                           [selectedCocktail]="selectedCocktail()"/>
   `,
   styles: `
@@ -24,6 +24,9 @@ import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools
       display: flex;
       padding: 24px;
       gap: 24px;
+      @media screen and (max-width: 820px) {
+        flex-direction: column;
+      }
     }`
 })
 export class CocktailsComponent {

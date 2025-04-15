@@ -32,6 +32,10 @@ import {Cocktail} from 'app/shared/interface';
       font-size: 14px;
       font-weight: 500;
     }
+
+    img {
+      max-height: 300px;
+    }
   `
 })
 export class CocktailDetailsComponent {
