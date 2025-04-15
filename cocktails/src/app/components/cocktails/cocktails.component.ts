@@ -15,7 +15,8 @@ import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools
     <app-cocktails-list class="w-half card"
                         [cocktails]="cocktails()"
                         (cocktailNameSelected)="cocktailNameSelected($event)"/>
-    <app-cocktail-details class="w-half card"/>
+    <app-cocktail-details class="w-half card"
+                          [selectedCocktail]="selectedCocktail()"/>
   `,
   styles: `
     :host {
