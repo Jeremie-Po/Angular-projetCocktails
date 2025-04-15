@@ -1,4 +1,4 @@
-import {Component, effect, signal} from '@angular/core';
+import {Component, computed, effect, signal} from '@angular/core';
 import {CocktailsListComponent} from './components/cocktails-list.component';
 import {CocktailDetailsComponent} from './components/cocktail-details.component';
 import {Cocktail} from '../../shared/interface';
@@ -14,7 +14,7 @@ import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools
   template: `
     <app-cocktails-list class="w-half card"
                         [cocktails]="cocktails()"
-                        [selectedCocktailName]="selectedCocktail().name"
+                        [selectedCocktailName]="selectedCocktailName()"
                         (cocktailNameSelected)="cocktailNameSelected($event)"/>
     <app-cocktail-details class="w-half card"
                           [selectedCocktail]="selectedCocktail()"/>
@@ -28,7 +28,8 @@ import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools
 })
 export class CocktailsComponent {
   cocktails = signal<Cocktail[]>(Cocktails);
-  selectedCocktail = signal<Cocktail>(this.cocktails()[0])
+  selectedCocktail = signal<Cocktail>(this.cocktails()[0]);
+  selectedCocktailName = computed(() => this.selectedCocktail().name);
 
   cocktailNameSelected(cocktailName: string) {
     const newCocktail = this.cocktails().find(({name}) =>
