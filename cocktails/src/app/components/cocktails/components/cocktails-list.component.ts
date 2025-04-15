@@ -8,9 +8,11 @@ import {Cocktail} from '../../../shared/interface';
     <h2 class="mb-20">Liste des cocktails</h2>
     <ul class="mb-20">
       @for (cocktail of cocktails(); track cocktail.name) {
+        @let active = cocktail.name === selectedCocktailName();
         <li class="px-12 py-6 my-2 border"
             (click)="cocktailNameSelected.emit(cocktail.name)"
-            [class.active-item]='cocktail.name === selectedCocktailName()'>
+            [class.active-item]='active'
+            [class.text-primary]='active'>
           <h3>{{ cocktail.name }}</h3>
         </li>
       }
