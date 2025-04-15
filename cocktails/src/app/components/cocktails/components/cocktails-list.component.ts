@@ -34,7 +34,8 @@ export class CocktailsListComponent {
   filter = signal<string>('');
 
   filteredCocktails = computed(() => {
-    return this.cocktails().filter((c) => c.name.toLowerCase().includes(this.filter()))
+    return this.cocktails().filter(({name}) => name.toLowerCase().includes(this.filter().toLowerCase()))
+    // return this.cocktails().filter((c) => c.name.toLowerCase().includes(this.filter().toLowerCase()))
   })
   cocktailNameSelected = output<string>();
 }

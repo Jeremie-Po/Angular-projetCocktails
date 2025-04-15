@@ -7,7 +7,7 @@ import {FormsModule} from '@angular/forms';
     FormsModule
   ],
   template: `
-    <input type="text" placeholder="Rechercher un cocktail" [(ngModel)]="filter"/>
+    <input class="input mb-20 w-full" type="text" placeholder="Rechercher un cocktail" [(ngModel)]="filter"/>
   `,
   styles: ``
 })
