@@ -22,7 +22,7 @@ import {Cocktail} from 'app/shared/interface';
       <span class="flex-auto"></span>
 
       @if (isLiked()) {
-        <button (click)="unLikeCocktail.emit(c._id)" class="btn btn-outline-primary">UnLike</button>
+        <button (click)="unLikeCocktail.emit(c._id)" class="btn btn-primary">UnLike</button>
       } @else {
         <button (click)="likeCocktail.emit(c._id)" class=" btn btn-outline-primary">Like</button>
       }
