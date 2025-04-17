@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {HeaderComponent} from './components/header/header.component';
 import {FooterComponent} from './components/footer.component';
 import {CocktailsComponent} from './components/cocktails/cocktails.component';
+import {seedData} from './shared/data/seed';
 
 @Component({
   selector: 'app-root',
@@ -24,4 +25,7 @@ import {CocktailsComponent} from './components/cocktails/cocktails.component';
   `
 })
 export class AppComponent {
+  constructor() {
+    // seedData();
+  }
 }
