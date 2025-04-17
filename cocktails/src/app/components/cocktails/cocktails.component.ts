@@ -15,8 +15,8 @@ import {CocktailsService} from '../../shared/services/cocktails.service';
   template: `
     <app-cocktails-list class="w-half card xs-w-full"
                         [cocktails]="cocktails()"
-                        [selectedCocktailName]="selectedCocktailName()"
-                        (cocktailNameSelected)="cocktailNameSelected($event)"/>
+                        [selectedCocktailId]="selectedCocktailId()"
+                        (cocktailIdSelected)="cocktailIdSelected($event)"/>
     @if (selectedCocktail()) {
       <app-cocktail-details class="w-half card xs-w-full"
                             [selectedCocktail]="selectedCocktail()"/>
@@ -34,14 +34,14 @@ import {CocktailsService} from '../../shared/services/cocktails.service';
 })
 export class CocktailsComponent {
   cocktailsService = inject(CocktailsService);
+
   cocktails = computed(() => this.cocktailsService.cocktailsResource.value() || []);
-
   selectedCocktail = signal<Cocktail>(this.cocktails()[0]);
-  selectedCocktailName = computed(() => this.selectedCocktail()?.name);
+  selectedCocktailId = computed(() => this.selectedCocktail()?._id);
 
-  cocktailNameSelected(cocktailName: string) {
-    const newCocktail = this.cocktails().find(({name}) =>
-      name === cocktailName
+  cocktailIdSelected(cocktailId: string) {
+    const newCocktail = this.cocktails().find(({_id}) =>
+      _id === cocktailId
     );
     if (newCocktail) {
       this.selectedCocktail.set(newCocktail);

@@ -11,10 +11,10 @@ import {CocktailFilterComponent} from './cocktail-filter.component';
     <h2 class="mb-20">Liste des cocktails</h2>
     <app-cocktail-filter [(filter)]="filter"/>
     <ul class="mb-20">
-      @for (cocktail of filteredCocktails(); track cocktail.name) {
-        @let active = cocktail.name === selectedCocktailName();
+      @for (cocktail of filteredCocktails(); track cocktail._id) {
+        @let active = cocktail._id === selectedCocktailId();
         <li class="px-12 py-6 my-2 border"
-            (click)="cocktailNameSelected.emit(cocktail.name)"
+            (click)="cocktailIdSelected.emit(cocktail._id)"
             [class.active-item]='active'
             [class.text-primary]='active'>
           <h3>{{ cocktail.name }}</h3>
@@ -30,12 +30,12 @@ import {CocktailFilterComponent} from './cocktail-filter.component';
 })
 export class CocktailsListComponent {
   cocktails = input<Cocktail[]>([])
-  selectedCocktailName = input.required();
+  selectedCocktailId = input.required();
   filter = signal<string>('');
 
   filteredCocktails = computed(() => {
     return this.cocktails().filter(({name}) => name.toLowerCase().includes(this.filter().toLowerCase()))
     // return this.cocktails().filter((c) => c.name.toLowerCase().includes(this.filter().toLowerCase()))
   })
-  cocktailNameSelected = output<string>();
+  cocktailIdSelected = output<string>();
 }
