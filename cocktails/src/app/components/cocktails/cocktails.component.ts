@@ -16,8 +16,10 @@ import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools
                         [cocktails]="cocktails()"
                         [selectedCocktailName]="selectedCocktailName()"
                         (cocktailNameSelected)="cocktailNameSelected($event)"/>
-    <app-cocktail-details class="w-half card xs-w-full"
-                          [selectedCocktail]="selectedCocktail()"/>
+    @if (selectedCocktail()) {
+      <app-cocktail-details class="w-half card xs-w-full"
+                            [selectedCocktail]="selectedCocktail()"/>
+    }
   `,
   styles: `
     :host {
@@ -30,9 +32,9 @@ import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools
     }`
 })
 export class CocktailsComponent {
-  cocktails = signal<Cocktail[]>(Cocktails);
+  cocktails = signal<Cocktail[]>([]);
   selectedCocktail = signal<Cocktail>(this.cocktails()[0]);
-  selectedCocktailName = computed(() => this.selectedCocktail().name);
+  selectedCocktailName = computed(() => this.selectedCocktail()?.name);
 
   cocktailNameSelected(cocktailName: string) {
     const newCocktail = this.cocktails().find(({name}) =>

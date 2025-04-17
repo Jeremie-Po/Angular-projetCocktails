@@ -40,11 +40,4 @@ import {Cocktail} from 'app/shared/interface';
 })
 export class CocktailDetailsComponent {
   selectedCocktail = input.required<Cocktail>()
-
-  cocktail: Cocktail = {
-    imageUrl: "https://www.cocktail.fr/wp-content/uploads/2017/05/cocktail.fr-44155-1-1013x675.jpg.webp",
-    name: "Mojito",
-    description: "saveur menthe rhum",
-    ingredients: ['menthes', 'rhum', 'eau gazeuse', 'citron vert', 'sucre de canne'],
-  }
 }

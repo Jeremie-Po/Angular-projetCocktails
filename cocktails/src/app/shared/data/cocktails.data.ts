@@ -1,6 +1,6 @@
 import {Cocktail} from '../interface';
 
-export const Cocktails: Cocktail[] = [
+export const Cocktails = [
   {
     imageUrl:
       'https://static.750g.com/images/1200-675/dfe52623942a8b2e6b4f1e1715a42570/servez-et-degustez.jpg',
