@@ -1,9 +1,6 @@
 import {Component, computed, effect, inject, signal} from '@angular/core';
 import {CocktailsListComponent} from './components/cocktails-list.component';
 import {CocktailDetailsComponent} from './components/cocktail-details.component';
-import {Cocktail} from '../../shared/interface';
-import {Cocktails} from '../../shared/data'
-import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools/webpack/utils/helpers';
 import {CocktailsService} from '../../shared/services/cocktails.service';
 
 @Component({
@@ -15,11 +12,11 @@ import {CocktailsService} from '../../shared/services/cocktails.service';
   template: `
     <app-cocktails-list class="w-half card xs-w-full"
                         [cocktails]="cocktails()"
-                        [selectedCocktailId]="selectedCocktailId()"
-                        (cocktailIdSelected)="cocktailIdSelected($event)"/>
-    @if (selectedCocktail()) {
+                        [(selectedCocktailId)]="selectedCocktailId"/>
+    @let sc = selectedCocktail();
+    @if (sc) {
       <app-cocktail-details class="w-half card xs-w-full"
-                            [selectedCocktail]="selectedCocktail()"/>
+                            [selectedCocktail]="sc"/>
     }
   `,
   styles: `
@@ -34,19 +31,13 @@ import {CocktailsService} from '../../shared/services/cocktails.service';
 })
 export class CocktailsComponent {
   cocktailsService = inject(CocktailsService);
-
   cocktails = computed(() => this.cocktailsService.cocktailsResource.value() || []);
-  selectedCocktail = signal<Cocktail>(this.cocktails()[0]);
-  selectedCocktailId = computed(() => this.selectedCocktail()?._id);
 
-  cocktailIdSelected(cocktailId: string) {
-    const newCocktail = this.cocktails().find(({_id}) =>
-      _id === cocktailId
-    );
-    if (newCocktail) {
-      this.selectedCocktail.set(newCocktail);
-    }
-  }
+  selectedCocktailId = signal<string | null>(null);
+
+  selectedCocktail = computed(() => {
+    return this.cocktails().find(({_id}) => _id === this.selectedCocktailId())
+  })
 
   constructor() {
     effect(() => {
