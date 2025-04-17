@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core';
+import {Component, input, output} from '@angular/core';
 import {Cocktail} from 'app/shared/interface';
 
 @Component({
@@ -18,12 +18,13 @@ import {Cocktail} from 'app/shared/interface';
     </ul>
     <div class="flex">
       <button class="btn btn-primary">ajouter cocktail</button>
+
       <span class="flex-auto"></span>
 
       @if (isLiked()) {
-        <button class="btn btn-outline-primary">UnLike</button>
+        <button (click)="unLikeCocktail.emit(c._id)" class="btn btn-outline-primary">UnLike</button>
       } @else {
-        <button class="btn btn-outline-primary">Like</button>
+        <button (click)="likeCocktail.emit(c._id)" class=" btn btn-outline-primary">Like</button>
       }
     </div>
   `,
@@ -48,4 +49,7 @@ import {Cocktail} from 'app/shared/interface';
 export class CocktailDetailsComponent {
   selectedCocktail = input.required<Cocktail>();
   isLiked = input.required<boolean>();
+
+  likeCocktail = output<string>();
+  unLikeCocktail = output<string>();
 }

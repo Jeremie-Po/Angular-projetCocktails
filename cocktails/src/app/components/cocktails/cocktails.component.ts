@@ -19,6 +19,8 @@ import {CartService} from '../../shared/services/cart.service';
       <app-cocktail-details class="w-half card xs-w-full"
                             [selectedCocktail]="sc"
                             [isLiked]="isLiked()"
+                            (likeCocktail)="likeCocktail($event)"
+                            (unLikeCocktail)="unLikeCocktail($event)"
       />
     }
   `,
@@ -47,12 +49,21 @@ export class CocktailsComponent {
       const selectedId = this.selectedCocktailId();
       return selectedId ? this.cartService.isLiked(selectedId) : false;
     }
-  )
+  );
+
+  likeCocktail(id: string) {
+    this.cartService.likeCocktail(id);
+  };
+
+  unLikeCocktail(id: string) {
+    this.cartService.unLikeCocktail(id);
+  }
 
   constructor() {
-    effect(() => {
-      console.log(this.selectedCocktail());
-      console.log('IS LIKED', this.isLiked());
-    })
+    // effect(() => {
+    //   console.log(this.selectedCocktail());
+    //   console.log('IS LIKED', this.isLiked());
+    //   console.log('likeIds', this.cartService.likedCocktailIds())
+    // })
   }
 }
