@@ -16,8 +16,15 @@ import {Cocktail} from 'app/shared/interface';
         </li>
       }
     </ul>
-    <div>
+    <div class="flex">
       <button class="btn btn-primary">ajouter cocktail</button>
+      <span class="flex-auto"></span>
+
+      @if (isLiked()) {
+        <button class="btn btn-outline-primary">UnLike</button>
+      } @else {
+        <button class="btn btn-outline-primary">Like</button>
+      }
     </div>
   `,
   styles: `
@@ -39,5 +46,6 @@ import {Cocktail} from 'app/shared/interface';
   `
 })
 export class CocktailDetailsComponent {
-  selectedCocktail = input.required<Cocktail>()
+  selectedCocktail = input.required<Cocktail>();
+  isLiked = input.required<boolean>();
 }

@@ -2,6 +2,7 @@ import {Component, computed, effect, inject, signal} from '@angular/core';
 import {CocktailsListComponent} from './components/cocktails-list.component';
 import {CocktailDetailsComponent} from './components/cocktail-details.component';
 import {CocktailsService} from '../../shared/services/cocktails.service';
+import {CartService} from '../../shared/services/cart.service';
 
 @Component({
   selector: 'app-cocktails',
@@ -16,7 +17,9 @@ import {CocktailsService} from '../../shared/services/cocktails.service';
     @let sc = selectedCocktail();
     @if (sc) {
       <app-cocktail-details class="w-half card xs-w-full"
-                            [selectedCocktail]="sc"/>
+                            [selectedCocktail]="sc"
+                            [isLiked]="isLiked()"
+      />
     }
   `,
   styles: `
@@ -31,17 +34,25 @@ import {CocktailsService} from '../../shared/services/cocktails.service';
 })
 export class CocktailsComponent {
   cocktailsService = inject(CocktailsService);
+  cartService = inject(CartService);
+
   cocktails = computed(() => this.cocktailsService.cocktailsResource.value() || []);
 
   selectedCocktailId = signal<string | null>(null);
-
   selectedCocktail = computed(() => {
     return this.cocktails().find(({_id}) => _id === this.selectedCocktailId())
   })
 
+  isLiked = computed(() => {
+      const selectedId = this.selectedCocktailId();
+      return selectedId ? this.cartService.isLiked(selectedId) : false;
+    }
+  )
+
   constructor() {
     effect(() => {
-      console.log(this.selectedCocktail())
+      console.log(this.selectedCocktail());
+      console.log('IS LIKED', this.isLiked());
     })
   }
 }
