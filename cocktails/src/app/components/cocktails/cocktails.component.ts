@@ -1,9 +1,10 @@
-import {Component, computed, effect, signal} from '@angular/core';
+import {Component, computed, effect, inject, signal} from '@angular/core';
 import {CocktailsListComponent} from './components/cocktails-list.component';
 import {CocktailDetailsComponent} from './components/cocktail-details.component';
 import {Cocktail} from '../../shared/interface';
 import {Cocktails} from '../../shared/data'
 import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools/webpack/utils/helpers';
+import {CocktailsService} from '../../shared/services/cocktails.service';
 
 @Component({
   selector: 'app-cocktails',
@@ -32,7 +33,9 @@ import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools
     }`
 })
 export class CocktailsComponent {
-  cocktails = signal<Cocktail[]>([]);
+  cocktailsService = inject(CocktailsService);
+  cocktails = computed(() => this.cocktailsService.cocktailsResource.value() || []);
+
   selectedCocktail = signal<Cocktail>(this.cocktails()[0]);
   selectedCocktailName = computed(() => this.selectedCocktail()?.name);
 
