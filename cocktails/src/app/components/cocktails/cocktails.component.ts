@@ -17,6 +17,7 @@ import {CartService} from '../../shared/services/cart.service';
                         [isLiked]="isLiked()"
                         (likeCocktail)="likeCocktail($event)"
                         (unLikeCocktail)="unLikeCocktail($event)"
+                        [cocktailsLikedList]="cocktailsLikedList()"
     />
 
     @let sc = selectedCocktail();
@@ -55,6 +56,11 @@ export class CocktailsComponent {
       return selectedId ? this.cartService.isLiked(selectedId) : false;
     }
   );
+
+  cocktailsLikedList = computed(() => {
+      return this.cartService.likedCocktailIds();
+    }
+  )
 
   likeCocktail(id: string) {
     this.cartService.likeCocktail(id);

@@ -11,13 +11,19 @@ import {CocktailFilterComponent} from './cocktail-filter.component';
     <h2 class="mb-20">Liste des cocktails</h2>
     <app-cocktail-filter #search [(filter)]="filter"/>
     <ul class="mb-20">
+      @let likedList = cocktailsLikedList();
       @for (cocktail of filteredCocktails(); track cocktail._id) {
         @let active = cocktail._id === selectedCocktailId();
         <li class="px-12 py-6 my-2 border"
             (click)="selectedCocktailId.set(cocktail._id)"
             [class.active-item]='active'
             [class.text-primary]='active'>
-          <h3>{{ cocktail.name }}</h3>
+          <h3 class="flex">
+            <span class="flex-auto">{{ cocktail.name }}</span>
+            @if (likedList.includes(cocktail._id)) {
+              <span>&#9829;</span>
+            }
+          </h3>
         </li>
       }
     </ul>
@@ -32,9 +38,10 @@ import {CocktailFilterComponent} from './cocktail-filter.component';
   },
 })
 export class CocktailsListComponent {
+  cocktailsLikedList = input<string[]>([]);
   search = viewChild<CocktailFilterComponent>('search');
 
-  cocktails = input<Cocktail[]>([])
+  cocktails = input<Cocktail[]>([]);
   filter = signal<string>('');
 
   filteredCocktails = computed(() => {
@@ -64,10 +71,33 @@ export class CocktailsListComponent {
         }
         break;
       }
-      case 'ArrowDown' : {
-        break;
-      }
+      case 'ArrowDown' :
       case 'ArrowUp' : {
+        const selectedCocktailId = this.selectedCocktailId();
+        const cocktails = this.cocktails();
+
+        if (cocktails) {
+          if (selectedCocktailId) {
+            const index = cocktails.findIndex(
+              ({_id}) => _id === selectedCocktailId
+            );
+            if (key === 'ArrowDown') {
+              const cocktailIndex = index === cocktails.length - 1 ? 0 : index + 1;
+              this.selectedCocktailId.set(cocktails[cocktailIndex]._id);
+            } else {
+              const cocktailIndex = index === 0 ? cocktails.length - 1 : index - 1;
+              this.selectedCocktailId.set(cocktails[cocktailIndex]._id);
+            }
+          } else {
+            if (key === 'ArrowDown') {
+              const {_id} = cocktails[0];
+              this.selectedCocktailId.set(_id);
+            } else {
+              const {_id} = cocktails.at(-1)!;
+              this.selectedCocktailId.set(_id);
+            }
+          }
+        }
         break;
       }
       default: {
