@@ -1,5 +1,5 @@
 import {Component, computed, ElementRef, input, model, output, signal, viewChild} from '@angular/core';
-import {Cocktail} from '../../../shared/interface';
+import {Cocktail} from '../../../shared/interfaces';
 import {CocktailFilterComponent} from './cocktail-filter.component';
 
 @Component({
@@ -43,6 +43,10 @@ export class CocktailsListComponent {
 
   selectedCocktailId = model<string | null>(null);
 
+  likeCocktail = output<string>();
+  unLikeCocktail = output<string>()
+  isLiked = input.required<boolean>();
+
   keyboardInteraction({key}: KeyboardEvent) {
     switch (key) {
       case 'Escape' : {
@@ -50,6 +54,14 @@ export class CocktailsListComponent {
         break;
       }
       case 'Enter' : {
+        const selectedCocktailId = this.selectedCocktailId();
+        if (selectedCocktailId) {
+          if (this.isLiked()) {
+            this.unLikeCocktail.emit(selectedCocktailId);
+          } else {
+            this.likeCocktail.emit(selectedCocktailId);
+          }
+        }
         break;
       }
       case 'ArrowDown' : {

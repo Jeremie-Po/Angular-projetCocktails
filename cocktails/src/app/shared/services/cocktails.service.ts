@@ -1,5 +1,5 @@
 import {Injectable, resource} from '@angular/core';
-import {Cocktail} from '../interface';
+import {Cocktail} from '../interfaces';
 
 @Injectable({
   providedIn: 'root'

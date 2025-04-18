@@ -13,7 +13,12 @@ import {CartService} from '../../shared/services/cart.service';
   template: `
     <app-cocktails-list class="w-half card xs-w-full"
                         [cocktails]="cocktails()"
-                        [(selectedCocktailId)]="selectedCocktailId"/>
+                        [(selectedCocktailId)]="selectedCocktailId"
+                        [isLiked]="isLiked()"
+                        (likeCocktail)="likeCocktail($event)"
+                        (unLikeCocktail)="unLikeCocktail($event)"
+    />
+
     @let sc = selectedCocktail();
     @if (sc) {
       <app-cocktail-details class="w-half card xs-w-full"

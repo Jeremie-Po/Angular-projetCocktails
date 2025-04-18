@@ -1,4 +1,4 @@
-import {Cocktail} from '../interface';
+import {Cocktail} from '../interfaces';
 
 export const Cocktails = [
   {
