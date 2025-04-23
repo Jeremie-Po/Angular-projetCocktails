@@ -32,6 +32,7 @@ import {CartService} from '../../shared/services/cart.service';
   `,
   styles: `
     :host {
+      flex: 1 1 auto;
       display: flex;
       padding: 24px;
       gap: 24px;
