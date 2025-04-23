@@ -21,6 +21,12 @@ body {
   border-radius: var(--radius);
 }
 
+.active-link {
+  background-color: var(--dark);
+  color: white;
+  border-radius: var(--radius);
+}
+
 .text-primary {
   color: var(--primary);
 }

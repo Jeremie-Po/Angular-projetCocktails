@@ -1,15 +1,19 @@
 import {Component, signal} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 
 @Component({
   selector: 'app-header-menu',
-  imports: [],
+  imports: [
+    RouterLink,
+    RouterLinkActive
+  ],
   template: `
     <button (click)="toggleMenu()">=</button>
     @if (show()) {
       <ul>
         @for (link of navigations; track $index) {
           <li (click)="show.set(false)" [class.mb-20]="!$last">
-            <a [href]="link.path">{{ link.name }}</a>
+            <a [routerLink]="link.path" routerLinkActive="active-link">{{ link.name }}</a>
           </li>
         }
       </ul>
@@ -40,11 +44,11 @@ export class HeaderMenuComponent {
   show = signal(false);
   navigations = [
     {
-      path: '#',
-      name: 'Liste des cocktails',
+      path: '/cocktails',
+      name: 'Cocktails',
     },
     {
-      path: '#',
+      path: '/cart',
       name: 'Panier',
     },
   ];
