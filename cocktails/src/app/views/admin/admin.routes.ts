@@ -14,11 +14,13 @@ export const routes: Routes = [
       },
       {
         path: "cocktails",
-        component: AdminCocktailsComponent,
+        // component: AdminCocktailsComponent,
+        loadChildren: async () => (await import('./views/admin-cocktails/admin-cocktails.routes')).routes,
+
       },
       {
-        path: "",
-        component: AdminCocktailsComponent,
+        path: '',
+        redirectTo: 'cocktails',
         pathMatch: 'full',
       },
     ]
