@@ -1,4 +1,4 @@
-import {Component, computed, inject, input} from '@angular/core';
+import {Component, computed, effect, inject, input} from '@angular/core';
 import {CartService} from '../../../shared/services/cart.service';
 
 @Component({
@@ -7,8 +7,8 @@ import {CartService} from '../../../shared/services/cart.service';
   template: `
     <h2 class="mb-20">Liste des ingrédients</h2>
     <ul>
-      @for (ingredient of ingredients(); track $index) {
-        <li>{{ ingredient }}</li>
+      @for (ingredient of ingredientsDisplay(); track $index) {
+        <li>{{ ingredient[0] }} : <strong>{{ ingredient[1] }}</strong></li>
       } @empty {
         <p>Aucun ingrédient n'a été ajouté</p>
       }
@@ -19,6 +19,22 @@ import {CartService} from '../../../shared/services/cart.service';
   }`
 })
 export class CartIngredientListComponent {
-  ingredients = input<string[]>();
+  ingredients = input<string[]>([]);
+  ingredientsDisplay = computed(() => {
+    return Object.entries(this.ingredients().reduce((acc, i) => {
+      if (acc[i]) {
+        acc[i]++;
+      } else {
+        acc[i] = 1;
+      }
+      return acc
+    }, {} as { [s: string]: number }));
+  })
 
+  constructor() {
+
+    effect(() => {
+      console.log(this.ingredientsDisplay());
+    })
+  }
 }
