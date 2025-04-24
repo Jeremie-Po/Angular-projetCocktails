@@ -14,6 +14,9 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
       <li>
         <a routerLink="/cart" routerLinkActive="active-link">Panier</a>
       </li>
+      <li>
+        <a routerLink="/admin" routerLinkActive="active-link">Admin</a>
+      </li>
     </ul>
     <app-header-menu class=" hide xs-show  "/>
   `,

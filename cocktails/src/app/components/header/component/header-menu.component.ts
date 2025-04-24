@@ -51,6 +51,10 @@ export class HeaderMenuComponent {
       path: '/cart',
       name: 'Panier',
     },
+    {
+      path: '/admin',
+      name: 'Admin',
+    },
   ];
 
   toggleMenu() {
