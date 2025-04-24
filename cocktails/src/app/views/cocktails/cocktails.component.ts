@@ -27,6 +27,7 @@ import {CartService} from '../../shared/services/cart.service';
                             [isLiked]="isLiked()"
                             (likeCocktail)="likeCocktail($event)"
                             (unLikeCocktail)="unLikeCocktail($event)"
+                            (addIngredients)="addIngredients($event)"
       />
     }
   `,
@@ -69,6 +70,10 @@ export class CocktailsComponent {
 
   unLikeCocktail(id: string) {
     this.cartService.unLikeCocktail(id);
+  };
+
+  addIngredients(ingredients: string[]) {
+    this.cartService.addIngredients(ingredients);
   }
 
   constructor() {

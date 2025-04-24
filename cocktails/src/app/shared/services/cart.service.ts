@@ -5,6 +5,7 @@ import {Injectable, signal} from '@angular/core';
 })
 export class CartService {
   likedCocktailIds = signal<string[]>([]);
+  ingredients = signal<string[]>([]);
 
   likeCocktail(id: string) {
     this.likedCocktailIds.update((ids) => [...ids, id]);
@@ -18,5 +19,9 @@ export class CartService {
 
   isLiked(id: string) {
     return this.likedCocktailIds().includes(id)
+  }
+
+  addIngredients(ingredients: string[]) {
+    this.ingredients.update((i) => [...i, ...ingredients]);
   }
 }

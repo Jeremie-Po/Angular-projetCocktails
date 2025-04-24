@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, computed, inject, input} from '@angular/core';
+import {CartService} from '../../../shared/services/cart.service';
 
 @Component({
   selector: 'app-cart-ingredient-list',
@@ -6,7 +7,11 @@ import {Component} from '@angular/core';
   template: `
     <h2 class="mb-20">Liste des ingrédients</h2>
     <ul>
-
+      @for (ingredient of ingredients(); track $index) {
+        <li>{{ ingredient }}</li>
+      } @empty {
+        <p>Aucun ingrédient n'a été ajouté</p>
+      }
     </ul>
   `,
   styles: `:host {
@@ -14,5 +19,6 @@ import {Component} from '@angular/core';
   }`
 })
 export class CartIngredientListComponent {
+  ingredients = input<string[]>();
 
 }

@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, computed, inject, Signal} from '@angular/core';
 import {CartIngredientListComponent} from './component/cart-ingredient-list.component';
+import {CartService} from '../../shared/services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -7,7 +8,7 @@ import {CartIngredientListComponent} from './component/cart-ingredient-list.comp
     CartIngredientListComponent
   ],
   template: `
-    <app-cart-ingredient-list class="card"/>
+    <app-cart-ingredient-list class="card" [ingredients]="ingredients()"/>
   `,
   styles: `
     :host {
@@ -16,5 +17,9 @@ import {CartIngredientListComponent} from './component/cart-ingredient-list.comp
     }`
 })
 export class CartComponent {
+  private cartService = inject(CartService);
 
+  ingredients: Signal<string[]> = computed(() => {
+    return this.cartService.ingredients();
+  })
 }
