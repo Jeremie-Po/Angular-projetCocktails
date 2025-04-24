@@ -11,7 +11,7 @@ import {CocktailsService} from '../../../../../shared/services/cocktails.service
         <li class="flex gap-12 card mb-10 align-items-center">
           <span class="flex-auto">{{ cocktail.name }}</span>
           <button class="btn btn-primary">Editer</button>
-          <button (click)="deleteCocktail(cocktails.id)" class="btn btn-danger">Supprimer</button>
+          <button (click)="deleteCocktail(cocktail._id)" class="btn btn-danger">Supprimer</button>
         </li>
       } @empty {
         <p>Pas de cocktail pour le moment</p>
