@@ -20,6 +20,9 @@ import {RouterOutlet} from '@angular/router';
       gap: 24px;
       padding: 14px;
       flex: 1 1 auto;
+      @media screen and (max-width: 820px) {
+        flex-direction: column;
+      }
     }`
 })
 export class AdminComponent {

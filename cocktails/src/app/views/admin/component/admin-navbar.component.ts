@@ -17,6 +17,9 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
   styles: `
     :host {
       width: 200px;
+      @media screen and (max-width: 820px) {
+        width: 100%;
+      }
     }`
 })
 export class AdminNavbarComponent {
