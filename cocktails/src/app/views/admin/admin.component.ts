@@ -18,6 +18,8 @@ import {RouterOutlet} from '@angular/router';
     :host {
       display: flex;
       gap: 24px;
+      padding: 14px;
+      flex: 1 1 auto;
     }`
 })
 export class AdminComponent {
