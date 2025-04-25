@@ -19,6 +19,9 @@ import {FormArray, FormBuilder, FormControl, ReactiveFormsModule, Validators} fr
       <div class="flex flex-col gap-12 mb-10">
         <label for="description">Description du cocktail</label>
         <textarea formControlName="description" id="description" cols="3"></textarea>
+        @if (descriptionControl.errors?.['required'] && descriptionControl.touched) {
+          <p class="error">Le cocktail doit avoir une description</p>
+        }
       </div>
       <div class="flex flex-col gap-12 mb-10">
         <label for="imageUrl">Image du cocktail</label>
@@ -66,7 +69,10 @@ export class AdminCocktailsFormComponent {
 
   get nameControl() {
     return this.cocktailForm.get('name') as FormControl;
+  }
 
+  get descriptionControl() {
+    return this.cocktailForm.get('description') as FormControl;
   }
 
   addIngredient() {

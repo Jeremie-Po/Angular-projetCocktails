@@ -84,6 +84,14 @@ button[disabled] {
   pointer-events: none;
 }
 
+.ng-invalid.ng-touched {
+  border-color: red;
+}
+
+.ng-valid.ng-touched {
+  border-color: green;
+}
+
 
 
 
