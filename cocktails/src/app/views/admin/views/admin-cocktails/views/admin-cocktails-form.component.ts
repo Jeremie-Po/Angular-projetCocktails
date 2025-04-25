@@ -31,7 +31,7 @@ import {CocktailForm} from '../../../../../shared/interfaces';
       </div>
       <div class="flex align-items-center gap-12 mb-10">
         <label class="flex-auto">Ingredients</label>
-        <button (click)=addIngredient() class="btn btn-primary"> Ajouter</button>
+        <button (click)=addIngredient() type="button" class="btn btn-primary"> Ajouter</button>
       </div>
       <ul formArrayName="ingredients">
         @for (ingredient of ingredientsControl.controls; track $index) {
