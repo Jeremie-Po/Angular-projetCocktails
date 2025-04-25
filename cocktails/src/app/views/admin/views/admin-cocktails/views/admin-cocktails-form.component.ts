@@ -1,5 +1,5 @@
-import {Component, inject} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, ReactiveFormsModule} from '@angular/forms';
+import {Component, effect, inject} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-admin-cocktails-form',
@@ -7,30 +7,33 @@ import {FormArray, FormBuilder, FormControl, ReactiveFormsModule} from '@angular
     ReactiveFormsModule
   ],
   template: `
-    <h3>Création d'un cocktail</h3>
-    <form class="w-half" [formGroup]="cocktailForm" (submit)="submit()">
+    <h3 class="mb-20">Création d'un cocktail</h3>
+    <form class="flex flex-col gap-12" [formGroup]="cocktailForm" (submit)="submit()">
       <div class="flex flex-col mb-10">
         <label for="name">Nom du cocktail</label>
         <input formControlName="name" type="text" id="name">
       </div>
       <div class="flex flex-col mb-10">
         <label for="description">Description du cocktail</label>
-        <input formControlName="description" type="text" id="description">
+        <textarea formControlName="description" id="description" cols="3"></textarea>
       </div>
       <div class="flex flex-col mb-10">
         <label for="imageUrl">Image du cocktail</label>
         <input formControlName="imageUrl" type="text" id="imageUrl">
       </div>
-      <div formArrayName="ingredients" class="flex flex-col mb-20">
-        <label>Ingredients</label>
-        <button (click)=addIngredient() class="mb-10 btn btn-primary"> Ajouter un ingrédient</button>
-        @for (ingredient of ingredients.controls; track $index) {
-          <div class=" flex gap-16 mb-10">
-            <input class="flex-auto " type="text" [formControlName]="$index">
-            <!--            <button (click)="deleteHobby($index)" class="btn btn-danger">Delete</button>-->
-          </div>
-        }
+      <div class="flex align-items-center gap-12">
+        <label class="flex-auto">Ingredients</label>
+        <button (click)=addIngredient() class="btn btn-primary"> Ajouter</button>
       </div>
+      <ul formArrayName="ingredients">
+        @for (ingredient of ingredients.controls; track $index) {
+          <li class="flex align-items-center gap-12 mb-10">
+            <input class="flex-auto" type="text" [formControlName]="$index">
+            <button (click)="deleteIngredient($index)" class="btn btn-danger">Delete</button>
+          </li>
+        }
+      </ul>
+      <button class="btn btn-primary"> Sauvegarder</button>
     </form>
   `,
   host:
@@ -40,12 +43,14 @@ import {FormArray, FormBuilder, FormControl, ReactiveFormsModule} from '@angular
     .card {
       padding: 8px;
     }`
+
 })
 export class AdminCocktailsFormComponent {
-  fb = inject(FormBuilder);
+  private fb = inject(FormBuilder);
+
   cocktailForm = this.fb.group({
-    name: [''],
-    description: [''],
+    name: ['', Validators.required],
+    description: ['', Validators.required],
     imageUrl: [''],
     ingredients: this.fb.array([]),
   })
@@ -55,10 +60,22 @@ export class AdminCocktailsFormComponent {
   }
 
   addIngredient() {
-    this.ingredients.push(new FormControl(''));
+    this.ingredients.push(this.fb.control(''));
   }
+
+  deleteIngredient(index: number) {
+    this.ingredients.removeAt(index);
+  };
 
   submit() {
     console.log(this.cocktailForm.value);
+
+  }
+
+  constructor() {
+    effect(() => {
+      console.log(this.cocktailForm);
+
+    })
   }
 }
