@@ -1,7 +1,9 @@
-import {Component, effect, inject, input} from '@angular/core';
+import {Component, computed, effect, inject, input} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CocktailsService} from '../../../../../shared/services/cocktails.service';
 import {CocktailForm} from '../../../../../shared/interfaces';
+import {ActivatedRoute} from '@angular/router';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-admin-cocktails-form',
@@ -57,14 +59,36 @@ import {CocktailForm} from '../../../../../shared/interfaces';
 })
 export class AdminCocktailsFormComponent {
   private fb = inject(FormBuilder);
-
   private cocktailsService = inject(CocktailsService);
+  private activatedRoute = inject(ActivatedRoute);
+
+  cocktails = computed(() => this.cocktailsService.cocktailsResource.value())
+  cocktailId = toSignal(this.activatedRoute.params)()!['cocktailId'];
 
   cocktailForm = this.fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required],
     imageUrl: [''],
     ingredients: this.fb.array([]),
+  })
+
+  initCocktailFormEffect = effect(() => {
+    if (this.cocktailId) {
+      const cocktails = this.cocktails()
+      if (cocktails) {
+        const {name, imageUrl, description, ingredients} = cocktails.find(({_id}) => _id === this.cocktailId)!;
+        this.cocktailForm.patchValue({
+          name,
+          imageUrl,
+          description,
+        })
+        ingredients.forEach(i =>
+          this.ingredientsControl.push(this.fb.control(i)));
+      }
+      this.initCocktailFormEffect.destroy();
+    } else {
+      this.initCocktailFormEffect.destroy();
+    }
   })
 
   get ingredientsControl() {

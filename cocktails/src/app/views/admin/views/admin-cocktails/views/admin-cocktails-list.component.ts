@@ -1,16 +1,19 @@
 import {Component, computed, inject} from '@angular/core';
 import {CocktailsService} from '../../../../../shared/services/cocktails.service';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-admin-cocktails-list',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   template: `
     <h3 class="mb-20">Liste des cocktails</h3>
     <ul>
       @for (cocktail of cocktails(); track cocktail._id) {
         <li class="flex gap-12 card mb-10 align-items-center">
           <span class="flex-auto">{{ cocktail.name }}</span>
-          <button class="btn btn-primary">Editer</button>
+          <button [routerLink]="['..',cocktail._id,'edit']" class="btn btn-primary">Editer</button>
           <button (click)="deleteCocktail(cocktail._id)" class="btn btn-danger">Supprimer</button>
         </li>
       } @empty {
