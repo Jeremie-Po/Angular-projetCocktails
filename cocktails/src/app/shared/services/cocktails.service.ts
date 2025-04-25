@@ -1,5 +1,5 @@
 import {Injectable, resource} from '@angular/core';
-import {Cocktail} from '../interfaces';
+import {Cocktail, CocktailForm} from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +26,31 @@ export class CocktailsService {
     } catch {
       throw new Error('Not deleted');
     }
+  }
+
+  async addCocktail(cocktailForm: CocktailForm) {
+    try {
+      const response = await fetch(this.BASE_URL, {
+        method: "POST",
+        body: JSON.stringify(cocktailForm),
+        headers: {
+          'Content-type': 'application/json'
+        },
+      });
+      const body = await response.json()
+      if (response.ok) {
+        // this.todosResource.update((todos) => {
+        //
+        //   return [...todos ?? [], body];
+        // });
+        this.cocktailsResource.reload();
+      } else {
+        throw new Error(`Le cocktail n'a pas pu etre ajouté`);
+      }
+    } catch (e) {
+      throw new Error(`Le cocktail n'a pas pu etre ajouté`);
+    }
+
   }
 
   constructor() {

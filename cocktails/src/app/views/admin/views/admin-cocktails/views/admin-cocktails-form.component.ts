@@ -1,5 +1,7 @@
-import {Component, effect, inject} from '@angular/core';
+import {Component, effect, inject, input} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
+import {CocktailsService} from '../../../../../shared/services/cocktails.service';
+import {CocktailForm} from '../../../../../shared/interfaces';
 
 @Component({
   selector: 'app-admin-cocktails-form',
@@ -56,6 +58,8 @@ import {FormArray, FormBuilder, FormControl, ReactiveFormsModule, Validators} fr
 export class AdminCocktailsFormComponent {
   private fb = inject(FormBuilder);
 
+  private cocktailsService = inject(CocktailsService);
+
   cocktailForm = this.fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required],
@@ -85,5 +89,6 @@ export class AdminCocktailsFormComponent {
 
   submit() {
     console.log(this.cocktailForm.value);
+    this.cocktailsService.addCocktail(this.cocktailForm.getRawValue() as CocktailForm)
   }
 }

@@ -5,3 +5,10 @@ export interface Cocktail {
   description: string;
   ingredients: string[];
 }
+
+export interface CocktailForm {
+  imageUrl: string;
+  name: string;
+  description: string;
+  ingredients: string[];
+}
