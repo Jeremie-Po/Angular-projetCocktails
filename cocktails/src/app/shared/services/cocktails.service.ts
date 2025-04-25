@@ -53,6 +53,28 @@ export class CocktailsService {
 
   }
 
+  async updateCocktail(cocktail: Cocktail) {
+    try {
+      const {_id, ...restCocktail} = cocktail;
+      const response = await fetch(`${this.BASE_URL}/${_id}`, {
+        method: "PATCH",
+        body: JSON.stringify(restCocktail),
+        headers: {
+          'Content-type': 'application/json'
+        },
+      });
+      const body = await response.json()
+      if (response.ok) {
+        this.cocktailsResource.reload();
+      } else {
+        throw new Error('impossible de mettre a à jours le cocktail');
+      }
+    } catch (e) {
+      throw new Error('impossible de mettre a à jours le cocktail');
+    }
+
+  }
+
   constructor() {
 
   }

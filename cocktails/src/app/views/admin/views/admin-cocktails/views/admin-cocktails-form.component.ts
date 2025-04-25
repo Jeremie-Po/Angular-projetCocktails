@@ -1,8 +1,8 @@
 import {Component, computed, effect, inject, input} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {CocktailsService} from '../../../../../shared/services/cocktails.service';
-import {CocktailForm} from '../../../../../shared/interfaces';
-import {ActivatedRoute} from '@angular/router';
+import {Cocktail, CocktailForm} from '../../../../../shared/interfaces';
+import {ActivatedRoute, Router} from '@angular/router';
 import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
@@ -11,7 +11,11 @@ import {toSignal} from '@angular/core/rxjs-interop';
     ReactiveFormsModule
   ],
   template: `
-    <h3 class="mb-20">Création d'un cocktail</h3>
+    @if (this.cocktailId) {
+      <h3 class="mb-20">Edition d'un cocktail</h3>
+    } @else {
+      <h3 class="mb-20">Création d'un cocktail</h3>
+    }
     <form [formGroup]="cocktailForm" (submit)="submit()">
       <div class="flex flex-col gap-12 mb-10">
         <label for="name">Nom du cocktail</label>
@@ -61,6 +65,7 @@ export class AdminCocktailsFormComponent {
   private fb = inject(FormBuilder);
   private cocktailsService = inject(CocktailsService);
   private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   cocktails = computed(() => this.cocktailsService.cocktailsResource.value())
   cocktailId = toSignal(this.activatedRoute.params)()!['cocktailId'];
@@ -112,7 +117,14 @@ export class AdminCocktailsFormComponent {
   };
 
   submit() {
-    console.log(this.cocktailForm.value);
-    this.cocktailsService.addCocktail(this.cocktailForm.getRawValue() as CocktailForm)
+    if (this.cocktailId) {
+      this.cocktailsService.updateCocktail({
+        ...this.cocktailForm.getRawValue(),
+        _id: this.cocktailId,
+      } as Cocktail)
+    } else {
+      this.cocktailsService.addCocktail(this.cocktailForm.getRawValue() as CocktailForm)
+    }
+    this.router.navigateByUrl('/admin/cocktails/list');
   }
 }
